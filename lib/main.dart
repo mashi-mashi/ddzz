@@ -12,7 +12,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  // ビルド時に指定したFlavorを取得
   const flavorString = String.fromEnvironment('FLAVOR');
   final flavor = Flavor.values.firstWhere((e) => e.key == flavorString);
 

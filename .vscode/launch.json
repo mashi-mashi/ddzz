@@ -4,7 +4,10 @@
         {
             "name": "ddzz",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": [
+                "--dart-define=FLAVOR=develop"
+            ]
         }
     ]
 }
