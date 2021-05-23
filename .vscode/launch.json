@@ -1,13 +1,11 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "ddzz",
-            "request": "launch",
-            "type": "dart",
-            "args": [
-                "--dart-define=FLAVOR=develop"
-            ]
-        }
-    ]
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "ddzz",
+      "request": "launch",
+      "type": "dart",
+      "args": ["--dart-define=FLAVOR=develop"]
+    }
+  ]
 }

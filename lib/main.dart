@@ -12,7 +12,8 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
-  const flavorString = String.fromEnvironment('FLAVOR');
+  const flavorString =
+      String.fromEnvironment('FLAVOR', defaultValue: 'develop');
   final flavor = Flavor.values.firstWhere((e) => e.key == flavorString);
 
   runApp(
