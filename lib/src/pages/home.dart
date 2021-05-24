@@ -1,3 +1,4 @@
+import 'package:ddzz/src/pages/auth_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -36,9 +37,11 @@ class HomePage extends HookWidget {
                   // onTap: () => _navigateToPage(const VersionCheckPage()),
                 ),
                 ListTile(
-                  title: const Text('Authentication Page'),
-                  // onTap: () => _navigateToPage(const AuthPage()),
-                ),
+                    title: const Text('Authentication Page'),
+                    onTap: () {
+                      print("ontap");
+                      _navigateToPage(const AuthPage());
+                    }),
               ],
             ),
           ),
