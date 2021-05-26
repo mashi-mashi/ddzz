@@ -19,15 +19,6 @@ class HomePage extends HookWidget {
       ),
       body: CustomScrollView(
         slivers: <Widget>[
-          const SliverAppBar(
-            floating: true,
-            pinned: true,
-            snap: true,
-            expandedHeight: 100,
-            flexibleSpace: FlexibleSpaceBar(
-              title: Text('FlutterFire Playground'),
-            ),
-          ),
           SliverFixedExtentList(
             itemExtent: 64,
             delegate: SliverChildListDelegate.fixed(

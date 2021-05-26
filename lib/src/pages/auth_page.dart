@@ -1,4 +1,6 @@
 import 'package:ddzz/src/features/auth_controller.dart';
+import 'package:ddzz/src/pages/article_page.dart';
+import 'package:ddzz/src/pages/provider_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -11,38 +13,13 @@ class AuthPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    void _navigateToPage(Widget page) {
+      Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => page));
+    }
+
     final user = useProvider(authControllerProvider);
     final authenticator = useProvider(authControllerProvider.notifier);
-    final nameController =
-        useTextEditingController(text: user?.displayName ?? '');
     final hasSigned = user != null;
-
-    void _showNameFieldDialog() {
-      showDialog<void>(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: const Text('ニックネーム変更'),
-            content: TextField(
-              controller: nameController,
-            ),
-            actions: [
-              TextButton(
-                onPressed: Navigator.of(context).pop,
-                child: const Text('キャンセル'),
-              ),
-              TextButton(
-                onPressed: () {
-                  // authenticator.updateDisplayName(nameController.text);
-                  Navigator.of(context).pop();
-                },
-                child: const Text('変更'),
-              ),
-            ],
-          );
-        },
-      );
-    }
 
     return Scaffold(
       appBar: AppBar(title: const Text('Authentication')),
@@ -56,8 +33,16 @@ class AuthPage extends HookWidget {
               Text('ニックネーム：${user!.displayName ?? '名無し'}'),
               const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: _showNameFieldDialog,
-                child: const Text('ニックネーム変更'),
+                onPressed: () {
+                  _navigateToPage(ProviderPage());
+                },
+                child: const Text('じゃんぷ'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  _navigateToPage(ArticlePage());
+                },
+                child: const Text('じゃんぷ2'),
               ),
               ElevatedButton(
                 onPressed: () async {
