@@ -8,27 +8,27 @@ const firestore_load_limit = 15;
 
 class Article {
   String id;
-  String name;
+  String title;
   String url;
   DateTime createdAt;
 
   Article(
       {required this.id,
-      required this.name,
+      required this.title,
       required this.url,
       required this.createdAt});
 
   factory Article.fromJson(String id, Map<String, dynamic> data) {
     return Article(
         id: id,
-        name: data['name'].toString(),
+        title: data['title'].toString(),
         url: data['url'].toString(),
         createdAt: dateFromTimestampValue(data['createdAt']));
   }
 
   static Map<String, dynamic> toJson(Article model) => {
         'id': model.id,
-        'name': model.name,
+        'title': model.title,
         'url': model.url,
         'createdAt': timestampFromDateValue(model.createdAt)
       };
@@ -39,27 +39,34 @@ final articleProvider = ChangeNotifierProvider((ref) => ArticleModel());
 class ArticleModel extends ChangeNotifier {
   ArticleModel() : super();
 
-  dynamic? _lastData;
-  final List<Article> _providers = [];
+  dynamic _lastData;
+  final List<Article> _articles = [];
   dynamic get lastData => _lastData;
-  List<Article> get providers => _providers;
+  List<Article> get articles => _articles;
 
-  Future<List<Article>> loadAll() async {
-    final data = await Firestore.getByQuery<Article>(
-        FirestoreReference.providers()
-            .orderBy('createdAt', descending: true)
-            .limit(firestore_load_limit));
+  Future<List<Article>> load(String providerId, [dynamic lastCreatedAt]) async {
+    final data = lastCreatedAt == null
+        ? await Firestore.getByQuery<Article>(
+            FirestoreReference.providerArticles(providerId)
+                .orderBy('createdAt', descending: true)
+                .limit(firestore_load_limit))
+        : await Firestore.getByQuery<Article>(
+            FirestoreReference.providerArticles(providerId)
+                .orderBy('createdAt', descending: true)
+                .startAfter([timestampFromDateValue(lastCreatedAt)]).limit(
+                    firestore_load_limit));
 
-    if (data.toList().isNotEmpty) {
-      _lastData = data.toList()[data.toList().length - 1];
-      _providers.clear();
-      _providers.addAll(data.toList());
+    if (data.isNotEmpty) {
+      _lastData = data[data.length - 1];
+      if (lastCreatedAt != null) {
+        _articles.clear();
+      }
+      _articles.addAll(data);
 
-      print(
-          'length - ${providers.length.toString()} lastdata - ${_lastData['name'].toString()}');
+      print('length - ${_articles.length.toString()}');
     }
     notifyListeners();
 
-    return _providers;
+    return _articles;
   }
 }
