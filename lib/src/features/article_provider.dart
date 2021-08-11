@@ -43,18 +43,24 @@ class ArticleModel extends ChangeNotifier {
   final List<Article> _articles = [];
   Article? get lastData => _lastData;
   List<Article> get articles => _articles;
+  String? _providerId;
 
   Future<List<Article>> load(String providerId, [dynamic lastCreatedAt]) async {
+    if (_providerId != providerId) {
+      _articles.clear();
+      _providerId = providerId;
+    }
+
     final data = lastCreatedAt == null
-        ? await Firestore.getByQuery<Article>(
-            FirestoreReference.providerArticles(providerId)
-                .orderBy('createdAt', descending: true)
-                .limit(firestore_load_limit))
-        : await Firestore.getByQuery<Article>(
-            FirestoreReference.providerArticles(providerId)
-                .orderBy('createdAt', descending: true)
-                .startAfter([timestampFromDateValue(lastCreatedAt)]).limit(
-                    firestore_load_limit));
+        ? await Firestore.getByQuery<Article>(FirestoreReference.articles()
+            .where('providerId', isEqualTo: providerId)
+            .orderBy('createdAt', descending: true)
+            .limit(firestore_load_limit))
+        : await Firestore.getByQuery<Article>(FirestoreReference.articles()
+            .where('providerId', isEqualTo: providerId)
+            .orderBy('createdAt', descending: true)
+            .startAfter([timestampFromDateValue(lastCreatedAt)]).limit(
+                firestore_load_limit));
 
     if (data.isNotEmpty) {
       _lastData = data[data.length - 1];

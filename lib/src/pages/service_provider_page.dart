@@ -1,4 +1,5 @@
 import 'package:ddzz/src/features/provider_provider.dart';
+import 'package:ddzz/src/pages/article_page.dart';
 import 'package:ddzz/src/widgets/card_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -9,6 +10,10 @@ class ProviderPage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    void _navigateToPage(Widget page) {
+      Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => page));
+    }
+
     return Scaffold(
         // backgroundColor: Constants.pageBackGroundColor,
         appBar: AppBar(
@@ -42,7 +47,11 @@ class ProviderPage extends HookWidget {
                               return makeCard(
                                   title: provider.title,
                                   createdAt: provider.createdAt,
-                                  onTap: () async {});
+                                  onTap: () async {
+                                    print('id: ${provider.id}');
+                                    _navigateToPage(
+                                        ArticlePage(providerId: provider.id));
+                                  });
                             } else {
                               return Text('記事がありません');
                             }

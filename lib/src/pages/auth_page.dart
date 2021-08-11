@@ -1,6 +1,6 @@
 import 'package:ddzz/src/features/auth_controller.dart';
 import 'package:ddzz/src/pages/article_page.dart';
-import 'package:ddzz/src/pages/provider_page.dart';
+import 'package:ddzz/src/pages/service_provider_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -40,7 +40,7 @@ class AuthPage extends HookWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  _navigateToPage(ArticlePage());
+                  _navigateToPage(ArticlePage(providerId: ''));
                 },
                 child: const Text('じゃんぷ2'),
               ),

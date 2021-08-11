@@ -5,7 +5,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ArticlePage extends HookWidget {
-  ArticlePage() : super();
+  String providerId;
+  ArticlePage({required this.providerId}) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,7 @@ class ArticlePage extends HookWidget {
           final futureProvider = useProvider(articleProvider);
           final snapshot = useFuture(
               useMemoized(() {
-                futureProvider.load('7W95xCWlIwJkRRa9La1y');
+                futureProvider.load(this.providerId);
               }, []),
               initialData: null);
 
@@ -27,7 +28,7 @@ class ArticlePage extends HookWidget {
               : SafeArea(
                   child: RefreshIndicator(
                       onRefresh: () async {
-                        await futureProvider.load('7W95xCWlIwJkRRa9La1y');
+                        await futureProvider.load(this.providerId);
                       },
                       child: ListView.builder(
                           shrinkWrap: true,
@@ -41,8 +42,8 @@ class ArticlePage extends HookWidget {
                                 print(
                                     'index: ${index.toString()} length: ${lenght - 1}');
                                 Future(() {
-                                  futureProvider.load('7W95xCWlIwJkRRa9La1y',
-                                      article.createdAt);
+                                  futureProvider.load(
+                                      this.providerId, article.createdAt);
                                 });
                               }
                               return makeCard(

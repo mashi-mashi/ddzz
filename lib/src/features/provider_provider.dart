@@ -6,27 +6,27 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 const firestore_load_limit = 15;
 
-class Provider {
+class ServiceProvider {
   String id;
   String title;
   String url;
   DateTime createdAt;
 
-  Provider(
+  ServiceProvider(
       {required this.id,
       required this.title,
       required this.url,
       required this.createdAt});
 
-  factory Provider.fromJson(String id, Map<String, dynamic> data) {
-    return Provider(
+  factory ServiceProvider.fromJson(String id, Map<String, dynamic> data) {
+    return ServiceProvider(
         id: id,
         title: data['title'].toString(),
         url: data['url'].toString(),
         createdAt: dateFromTimestampValue(data['createdAt']));
   }
 
-  static Map<String, dynamic> toJson(Provider model) => {
+  static Map<String, dynamic> toJson(ServiceProvider model) => {
         'id': model.id,
         'title': model.title,
         'url': model.url,
@@ -40,19 +40,21 @@ class ProviderModel extends ChangeNotifier {
   ProviderModel() : super();
 
   dynamic _lastData;
-  final List<Provider> _providers = [];
+  final List<ServiceProvider> _providers = [];
   dynamic get lastData => _lastData;
-  List<Provider> get providers => _providers;
+  List<ServiceProvider> get providers => _providers;
 
-  Future<List<Provider>> load([dynamic lastCreatedAt]) async {
+  Future<List<ServiceProvider>> load([dynamic lastCreatedAt]) async {
     final data = lastCreatedAt == null
-        ? await Firestore.getByQuery<Provider>(FirestoreReference.providers()
-            .orderBy('createdAt', descending: true)
-            .limit(firestore_load_limit))
-        : await Firestore.getByQuery<Provider>(FirestoreReference.providers()
-            .orderBy('createdAt', descending: true)
-            .startAfter([timestampFromDateValue(lastCreatedAt)]).limit(
-                firestore_load_limit));
+        ? await Firestore.getByQuery<ServiceProvider>(
+            FirestoreReference.providers()
+                .orderBy('createdAt', descending: true)
+                .limit(firestore_load_limit))
+        : await Firestore.getByQuery<ServiceProvider>(
+            FirestoreReference.providers()
+                .orderBy('createdAt', descending: true)
+                .startAfter([timestampFromDateValue(lastCreatedAt)]).limit(
+                    firestore_load_limit));
 
     if (data.isNotEmpty) {
       _lastData = data[data.length - 1];
