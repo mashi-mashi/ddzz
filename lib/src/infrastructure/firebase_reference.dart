@@ -8,10 +8,10 @@ class FirestoreReference {
   static String base() => 'deluca/v1/';
   static CollectionReference providers() => FirebaseFirestore.instance
       .collection(FirestoreReference.base() + 'providers')
-      .withConverter<Provider>(
+      .withConverter<ServiceProvider>(
           fromFirestore: (snapshot, _) =>
-              Provider.fromJson(snapshot.id, snapshot.data()!),
-          toFirestore: (model, _) => Provider.toJson(model));
+              ServiceProvider.fromJson(snapshot.id, snapshot.data()!),
+          toFirestore: (model, _) => ServiceProvider.toJson(model));
 
   static CollectionReference articles() {
     var collectionReference = FirebaseFirestore.instance
@@ -23,14 +23,14 @@ class FirestoreReference {
     return collectionReference;
   }
 
-  static CollectionReference providerArticles(String providerId) =>
-      FirebaseFirestore.instance
-          .collection(
-              FirestoreReference.base() + 'providers/$providerId/articles')
-          .withConverter<Article>(
-              fromFirestore: (snapshot, _) =>
-                  Article.fromJson(snapshot.id, snapshot.data()!),
-              toFirestore: (model, _) => Article.toJson(model));
+  // static CollectionReference providerArticles(String providerId) =>
+  //     FirebaseFirestore.instance
+  //         .collection(
+  //             FirestoreReference.base() + 'providers/$providerId/articles')
+  //         .withConverter<Article>(
+  //             fromFirestore: (snapshot, _) =>
+  //                 Article.fromJson(snapshot.id, snapshot.data()!),
+  //             toFirestore: (model, _) => Article.toJson(model));
 
   static CollectionReference userSubscriptions() {
     return FirebaseFirestore.instance.collection(FirestoreReference.base() +
