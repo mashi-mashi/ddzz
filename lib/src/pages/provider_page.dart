@@ -39,7 +39,10 @@ class ProviderPage extends HookWidget {
                                   futureProvider.load(provider.createdAt);
                                 });
                               }
-                              return makeCard(provider, () async {});
+                              return makeCard(
+                                  title: provider.title,
+                                  createdAt: provider.createdAt,
+                                  onTap: () async {});
                             } else {
                               return Text('記事がありません');
                             }

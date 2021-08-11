@@ -34,22 +34,30 @@ class ArticlePage extends HookWidget {
                           physics: AlwaysScrollableScrollPhysics(),
                           itemCount: futureProvider.articles.length,
                           itemBuilder: (context, index) {
-                            if (index < futureProvider.articles.length) {
+                            final lenght = futureProvider.articles.length;
+                            if (index < lenght) {
                               final article = futureProvider.articles[index];
-                              if (index == futureProvider.articles.length - 1) {
+                              if (index == lenght - 1) {
+                                print(
+                                    'index: ${index.toString()} length: ${lenght - 1}');
                                 Future(() {
                                   futureProvider.load('7W95xCWlIwJkRRa9La1y',
                                       article.createdAt);
                                 });
                               }
-                              return Card(
-                                elevation: 8.0,
-                                margin: EdgeInsets.symmetric(
-                                    horizontal: 10.0, vertical: 6.0),
-                                child: Container(
-                                  child: ListTile(title: Text(article.title)),
-                                ),
-                              );
+                              return makeCard(
+                                  title: '$index ${article.title}',
+                                  createdAt: article.createdAt,
+                                  onTap: () async {});
+                              // return Card(
+                              //   elevation: 8.0,
+                              //   margin: EdgeInsets.symmetric(
+                              //       horizontal: 10.0, vertical: 6.0),
+                              //   child: Container(
+                              //     child: ListTile(
+                              //         title: Text('$index ${article.title}')),
+                              //   ),
+                              // );
                             } else {
                               return Text('記事がありません');
                             }

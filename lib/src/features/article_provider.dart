@@ -39,9 +39,9 @@ final articleProvider = ChangeNotifierProvider((ref) => ArticleModel());
 class ArticleModel extends ChangeNotifier {
   ArticleModel() : super();
 
-  dynamic _lastData;
+  Article? _lastData;
   final List<Article> _articles = [];
-  dynamic get lastData => _lastData;
+  Article? get lastData => _lastData;
   List<Article> get articles => _articles;
 
   Future<List<Article>> load(String providerId, [dynamic lastCreatedAt]) async {
@@ -58,9 +58,6 @@ class ArticleModel extends ChangeNotifier {
 
     if (data.isNotEmpty) {
       _lastData = data[data.length - 1];
-      if (lastCreatedAt != null) {
-        _articles.clear();
-      }
       _articles.addAll(data);
 
       print('length - ${_articles.length.toString()}');

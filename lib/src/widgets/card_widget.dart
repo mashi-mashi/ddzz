@@ -1,22 +1,27 @@
-import 'package:ddzz/src/features/provider_provider.dart';
 import 'package:ddzz/utils/datetime-utils.dart';
 import 'package:flutter/material.dart';
 
-Card makeCard(Provider provider, Future<dynamic> Function() onTap) {
+Card makeCard(
+    {required String title,
+    required DateTime createdAt,
+    required Future<dynamic> Function() onTap}) {
   return Card(
-    elevation: 8.0,
-    margin: EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+    elevation: 0.2,
+    margin: EdgeInsets.symmetric(horizontal: 4.0, vertical: 1.0),
     child: Container(
-      child: makeListTile(provider, onTap),
+      child: makeListTile(title: title, createdAt: createdAt, onTap: onTap),
     ),
   );
 }
 
-ListTile makeListTile(Provider provider, Future<dynamic> Function() onTap) =>
+ListTile makeListTile(
+        {required String title,
+        required DateTime createdAt,
+        required Future<dynamic> Function() onTap}) =>
     ListTile(
       contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
       title: Text(
-        provider.title,
+        title,
         style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
       ),
       subtitle: Row(
@@ -33,8 +38,7 @@ ListTile makeListTile(Provider provider, Future<dynamic> Function() onTap) =>
             child: Padding(
                 padding: EdgeInsets.only(left: 10.0),
                 child: Text(
-                    formatDatetime(provider.createdAt,
-                        format: 'yyyy/MM/dd HH:mm:ss'),
+                    formatDatetime(createdAt, format: 'yyyy/MM/dd HH:mm:ss'),
                     style: TextStyle(color: Colors.black))),
           ),
         ],
