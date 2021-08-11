@@ -46,6 +46,6 @@ ListTile makeListTile(
       trailing:
           Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
       onTap: () async {
-        // await onTap();
+        await onTap();
       },
     );
