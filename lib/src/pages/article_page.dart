@@ -4,19 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ArticlePage extends HookWidget {
+class ArticlePage extends HookConsumerWidget {
   String providerId;
   ArticlePage({required this.providerId}) : super();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
         // backgroundColor: Constants.pageBackGroundColor,
         appBar: AppBar(
           title: const Text('Articles'),
         ),
         body: HookBuilder(builder: (context) {
-          final futureProvider = useProvider(articleProvider);
+          final futureProvider = ref.watch(articleProvider);
           final snapshot = useFuture(
               useMemoized(() {
                 futureProvider.load(this.providerId);

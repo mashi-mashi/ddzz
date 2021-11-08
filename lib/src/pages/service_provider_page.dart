@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ProviderPage extends HookWidget {
+class ProviderPage extends HookConsumerWidget {
   ProviderPage() : super();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     void _navigateToPage(Widget page) {
       Navigator.of(context).push<void>(MaterialPageRoute(builder: (_) => page));
     }
@@ -20,7 +20,7 @@ class ProviderPage extends HookWidget {
           title: const Text('Provider'),
         ),
         body: HookBuilder(builder: (context) {
-          final futureProvider = useProvider(providerProvider);
+          final futureProvider = ref.watch(providerProvider);
           final snapshot = useFuture(useMemoized(futureProvider.load, []),
               initialData: null);
 
